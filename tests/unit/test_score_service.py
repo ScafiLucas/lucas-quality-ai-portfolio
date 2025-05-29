@@ -1,7 +1,6 @@
-import pytest
 from app.models.input.score_input import ScoreInput
-from app.models.output.score_output import ScoreOutput
 from app.services.score_service import calculate_score
+
 
 def test_calculate_score_high_income_low_debt():
     input_data = ScoreInput(income=10000, debt=500, late_payments=0, savings=5000)
@@ -13,6 +12,7 @@ def test_calculate_score_high_income_low_debt():
     assert result.score == 1000
     assert result.category == "Excellent"
 
+
 def test_calculate_score_low_income_high_debt():
     input_data = ScoreInput(income=1000, debt=4000, late_payments=2, savings=100)
     # penalties = 4000 * 0.1 + 2 * 20 = 400 + 40 = 440
@@ -22,6 +22,7 @@ def test_calculate_score_low_income_high_debt():
     assert result.score == 565
     assert result.category == "Fair"
 
+
 def test_calculate_score_midrange():
     input_data = ScoreInput(income=5000, debt=2500, late_payments=1, savings=2000)
     # penalties = 2500 * 0.1 + 1 * 20 = 250 + 20 = 270
@@ -30,6 +31,7 @@ def test_calculate_score_midrange():
     result = calculate_score(input_data)
     assert result.score == 830
     assert result.category == "Excellent"
+
 
 def test_calculate_score_zero_income():
     input_data = ScoreInput(income=1, debt=1000, late_payments=0, savings=100)

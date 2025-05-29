@@ -1,6 +1,7 @@
+import json
 import logging
 import sys
-import json
+
 
 class JsonFormatter(logging.Formatter):
     def format(self, record):
@@ -10,11 +11,12 @@ class JsonFormatter(logging.Formatter):
             "message": record.getMessage(),
             "module": record.module,
             "funcName": record.funcName,
-            "lineNo": record.lineno
+            "lineNo": record.lineno,
         }
         if record.args:
             record_dict.update(record.args)
         return json.dumps(record_dict)
+
 
 def get_logger(name: str = "app"):
     logger = logging.getLogger(name)

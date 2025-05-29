@@ -4,6 +4,7 @@ from app.models.output.score_output import ScoreOutput
 
 logger = get_logger(__name__)
 
+
 def calculate_score(data: ScoreInput) -> ScoreOutput:
     logger.info("Calculating score", extra=data.dict())
 
@@ -23,13 +24,10 @@ def calculate_score(data: ScoreInput) -> ScoreOutput:
     else:
         category = "Poor"
 
-    logger.info(
-        "Score calculated",
-        extra={"score": score, "category": category}
-    )
+    logger.info("Score calculated", extra={"score": score, "category": category})
 
     return ScoreOutput(
         score=score,
         category=category,
-        explanation="Score calculated using income, debt, savings and payment history."
+        explanation="Score calculated using income, debt, savings and payment history.",
     )

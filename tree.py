@@ -1,7 +1,8 @@
 import os
 
-EXCLUDED_DIRS = {'.venv', '__pycache__', '.pytest_cache', '.git'}
+EXCLUDED_DIRS = {".venv", "__pycache__", ".pytest_cache", ".git"}
 OUTPUT_FILE = "tree.txt"
+
 
 def list_dir(base_path, prefix=""):
     lines = []
@@ -16,6 +17,7 @@ def list_dir(base_path, prefix=""):
         elif os.path.isfile(path):
             lines.append(f"{prefix}{connector}{entry}")
     return lines
+
 
 if __name__ == "__main__":
     root_dir = "."  # Diretório atual

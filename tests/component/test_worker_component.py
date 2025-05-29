@@ -5,9 +5,10 @@ import uuid
 import pytest
 
 from app.core.job_queue import job_queue
-from app.core.job_tracker import job_status_map, JobStatus
+from app.core.job_tracker import JobStatus, job_status_map
 from app.models.output.score_output import ScoreOutput
 from app.services.worker import worker_loop
+
 
 # Marca o teste como assíncrono para pytest
 @pytest.mark.asyncio
@@ -21,20 +22,16 @@ async def test_worker_processes_valid_csv(tmp_path):
     # Cria um arquivo CSV temporário com dados de teste
     test_csv_path = tmp_path / "test.csv"
     with open(test_csv_path, "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["income", "debt", "late_payments", "savings"])
+        writer = csv.DictWriter(
+            f, fieldnames=["income", "debt", "late_payments", "savings"]
+        )
         writer.writeheader()
-        writer.writerow({
-            "income": 5000,
-            "debt": 1000,
-            "late_payments": 2,
-            "savings": 1500
-        })
+        writer.writerow(
+            {"income": 5000, "debt": 1000, "late_payments": 2, "savings": 1500}
+        )
 
     # Adiciona o job na fila de processamento, informando o caminho do arquivo CSV
-    await job_queue.put({
-        "job_id": job_id,
-        "filepath": str(test_csv_path)
-    })
+    await job_queue.put({"job_id": job_id, "filepath": str(test_csv_path)})
 
     # Act (Ação)
     # Executa o loop do worker para processar o job, com timeout de 2 segundos
