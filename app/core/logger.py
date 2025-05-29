@@ -15,15 +15,23 @@ class JsonFormatter(logging.Formatter):
         }
         if record.args:
             record_dict.update(record.args)
-        return json.dumps(record_dict)
+        return json.dumps(record_dict, ensure_ascii=False)
 
 
 def get_logger(name: str = "app"):
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
+
     if not logger.handlers:
         handler = logging.StreamHandler(sys.stdout)
+
+        try:
+            handler.stream.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
         formatter = JsonFormatter()
         handler.setFormatter(formatter)
         logger.addHandler(handler)
+
     return logger

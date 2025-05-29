@@ -1,6 +1,7 @@
 {
   "version": "0.2.0",
   "configurations": [
+
     {
       "name": "Run FastAPI with Uvicorn",
       "type": "python",
@@ -11,7 +12,12 @@
         "--reload"
       ],
       "jinja": true,
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "env": {
+        "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/lucas_quality_ai",
+        "PGCLIENTENCODING": "utf8"
+      }
     }
   ]
 }
+ 

@@ -7,6 +7,7 @@
 │   ├── api/
 │   │   └── routes.py
 │   ├── core/
+│   │   ├── config.py
 │   │   ├── job_queue.py
 │   │   ├── job_tracker.py
 │   │   └── logger.py
@@ -21,12 +22,19 @@
 │   │   └── output/
 │   │       ├── score_output.py
 │   │       └── upload_response.py
-│   └── services/
-│       ├── db_service.py
-│       ├── score_service.py
-│       ├── status_service.py
-│       ├── upload_service.py
-│       └── worker.py
+│   ├── services/
+│   │   ├── db/
+│   │   │   └── db_service.py
+│   │   ├── scoring/
+│   │   │   └── score_service.py
+│   │   ├── status/
+│   │   │   └── status_service.py
+│   │   ├── uploading/
+│   │   │   └── upload_service.py
+│   │   └── worker/
+│   │       └── worker.py
+│   └── worker_entry.py
+├── db_reminder.txt
 ├── infrastructure/
 │   └── database/
 │       ├── README.md

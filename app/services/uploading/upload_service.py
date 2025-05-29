@@ -1,16 +1,16 @@
-# app/services/upload_service.py
-
-from typing import List
-from fastapi import UploadFile
-from sqlalchemy.orm import Session
-from app.models.input.score_input import ScoreInput
-from app.models.output.upload_response import UploadResponse
-from app.core.job_queue import enqueue_job
-from app.services.db_service import insert_job
-from app.core.job_tracker import create_job_id, JobStatusTracker
 import csv
 import io
 import logging
+from typing import List
+
+from fastapi import UploadFile
+from sqlalchemy.orm import Session
+
+from app.core.job_queue import enqueue_job
+from app.core.job_tracker import JobStatusTracker, create_job_id
+from app.models.input.score_input import ScoreInput
+from app.models.output.upload_response import UploadResponse
+from app.repositories.factory import get_repository
 
 logger = logging.getLogger(__name__)
 
@@ -28,13 +28,17 @@ def process_csv_upload(file: UploadFile, db: Session) -> UploadResponse:
     return UploadResponse(
         job_id=job_id,
         status="processing",
-        detail=f"Successfully received {len(score_inputs)} records."
+        detail=f"Successfully received {len(score_inputs)} records.",
     )
 
 
 def _parse_csv(file: UploadFile) -> List[dict]:
     try:
-        content = file.file.read().decode("utf-8")
+        try:
+            content = file.file.read().decode("utf-8")
+        except UnicodeDecodeError:
+            file.file.seek(0)
+            content = file.file.read().decode("latin-1")
         reader = csv.DictReader(io.StringIO(content))
         return list(reader)
     except Exception as e:
@@ -50,7 +54,7 @@ def _transform_rows(rows: List[dict]) -> List[ScoreInput]:
                 income=float(row["income"]),
                 debt=float(row["debt"]),
                 savings=float(row["savings"]),
-                late_payments=int(row["late_payments"])
+                late_payments=int(row["late_payments"]),
             )
             valid_inputs.append(score_input)
         except Exception as e:
@@ -61,7 +65,8 @@ def _transform_rows(rows: List[dict]) -> List[ScoreInput]:
 def _persist_inputs(inputs: List[ScoreInput], job_id: str, db: Session) -> None:
     for score_input in inputs:
         try:
-            insert_job(score_input, job_id, db)
+            repository = get_repository()
+            repository.save_input(job_id, score_input)
         except Exception as e:
             logger.warning(f"Failed to persist input: {score_input} – {e}")
 
