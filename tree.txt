@@ -1,0 +1,49 @@
+├── .env
+├── .vscode/
+│   ├── launch.json
+│   └── seetings.json
+├── README.md
+├── app/
+│   ├── api/
+│   │   └── routes.py
+│   ├── core/
+│   │   ├── job_queue.py
+│   │   ├── job_tracker.py
+│   │   └── logger.py
+│   ├── db/
+│   │   ├── database.py
+│   │   └── models.py
+│   ├── main.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── input/
+│   │   │   └── score_input.py
+│   │   └── output/
+│   │       ├── score_output.py
+│   │       └── upload_response.py
+│   └── services/
+│       ├── db_service.py
+│       ├── score_service.py
+│       ├── status_service.py
+│       ├── upload_service.py
+│       └── worker.py
+├── infrastructure/
+│   └── database/
+│       ├── README.md
+│       ├── init.sql
+│       └── seed.sql
+├── pytest.ini
+├── requirements.txt
+├── temp/
+│   └── test.csv
+├── test_files/
+│   └── test.csv
+├── tests/
+│   ├── component/
+│   │   └── test_worker_component.py
+│   └── unit/
+│       ├── test_score_service.py
+│       └── test_upload_service.py
+├── tree.py
+├── tree.txt
+└── user_story.md

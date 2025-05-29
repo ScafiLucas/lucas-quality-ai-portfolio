@@ -1,0 +1,24 @@
+{
+  "python.formatting.provider": "black",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.isortEnabled": true,
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.autoTestDiscoverOnSaveEnabled": true,
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/*.pyo": true
+  },
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "python.analysis.typeCheckingMode": "basic"
+}
